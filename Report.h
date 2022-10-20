@@ -19,4 +19,4 @@ class Report {
 
 };
 
-#endif //UNTITLED4_REPORT_H
+#endif //PROJECT_REPORT_H

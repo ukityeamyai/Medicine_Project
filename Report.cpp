@@ -206,8 +206,3 @@ void Report::print_all_medicine() {
 
 
 
-
-
-
-
-

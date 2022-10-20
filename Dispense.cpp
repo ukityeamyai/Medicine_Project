@@ -209,3 +209,151 @@ void Dispense::dispense() {
         }
     }
 }
+void Dispense::dispense_amount(int type, string name, int amount) {
+    int price;
+    bubble_sort_ascending();
+    Node *tmp = this->storage.get_head();
+    int count = this->storage.get_count();
+    Node *tail = this->storage.get_tail();
+    Node *head = this->storage.get_head();
+    Node *ptmp = this->storage.get_head();
+    for (int i = 0; i < count; i++) {
+        if (tmp->type == type && tmp->name == name && tmp->amount != 0) {
+            tmp->amount = tmp->amount - amount;
+            if (tmp->amount <= 0){
+                tmp->amount = 0;
+            }
+            break;
+        }
+        tmp = tmp->link_lot;
+    }
+    update_storage();
+    save_circulation(type,name,amount);
+}
+
+void Dispense::update_storage() {
+    Node *tmp = storage.get_head();
+    int count = storage.get_count();
+    ofstream myFile("storage.txt",ios::out);
+    if (myFile.is_open()){
+        for (int i = 0; i < count; i++) {
+            myFile << tmp->lot_number << ","
+                   << tmp->type << ","
+                   << tmp->name << ","
+                   << tmp->amount << ","
+                   << tmp->volume << ","
+                   << tmp->mfg << ","
+                   << tmp->exp << ","
+                   << tmp->price << endl;
+
+            tmp = tmp->link_lot;
+        }
+    } else{
+        cout << "Can't open file" << endl;
+    }
+}
+
+void Dispense::save_circulation(int type, string name, int amount) {
+    Node *tmp = head_circulation;
+    Node *ptmp = this->storage.get_head();
+    int count = this->storage.get_count();
+    int price;
+    ofstream myFile("circulation.txt",ios::app);
+    for (int i = 0; i < count; i++) {
+        if (ptmp->type == type && ptmp->name == name){
+            price = ptmp->price;
+        }
+        ptmp = ptmp->link_lot;
+    }
+
+    if (myFile.is_open()){
+        for (int i = 0; i < count_circulation; i++) {
+            myFile << type << ","
+                   << name << ","
+                   << amount << ","
+                   << price << ","
+                   << date() << endl;
+            tmp = tmp->link_circulation;
+        }
+    }else{
+        cout << "Can't open file" << endl;
+    }
+}
+
+
+void Dispense::add(int type, string name, int amount,int price,string date) {
+    Node *tmp = new Node(type,name,amount,price,date);
+    tmp->type = type;
+    tmp->name = name;
+    tmp->amount = amount;
+    tmp->price = price;
+    tmp->date = date;
+    if (count_circulation == 0){
+        tmp->link_circulation = NULL;
+        head_circulation = tmp;
+        tail_circulation = tmp;
+    } else{
+        tmp->link_circulation = NULL;
+        tail_circulation->link_circulation = tmp;
+        tail_circulation = tail_circulation->link_circulation;
+    }
+    count_circulation++;
+}
+
+void Dispense::read_circulation() {
+    int type, amount, price;
+    string name,date,line;
+    ifstream myFile;
+    myFile.open("circulation.txt",ios::in);
+    if (myFile.fail()){
+        cout << "==================================" << endl;
+        cout << setw(24) << "Can't open file" << endl;
+        cout << "==================================" << endl;
+    } else{
+        while (getline(myFile,line)){
+            type = string_to_int(line.substr(0,','));
+            line.erase(0,line.find(',') + 1);
+
+            name = line.substr(0,line.find(','));
+            line.erase(0,line.find(',') + 1);
+
+            amount = string_to_int(line.substr(0,','));
+            line.erase(0,line.find(',') + 1);
+
+            price = string_to_int(line.substr(0,','));
+            line.erase(0,line.find(',') + 1);
+
+            date = line.substr(0,line.find(','));
+            line.erase(0,line.find(',') + 1);
+
+            add(type,name,amount,price,date);
+        }
+    }
+    myFile.close();
+}
+
+
+void Dispense::circulation() {
+    Node *tmp = head_circulation;
+    cout << "======================================================================================" << endl;
+    cout << "||" << setw(51) << "CIRCULATION MINIMUM" << setw(33) << right << "||" << endl;
+    cout << "======================================================================================" << endl;
+    cout << setw(3) << left << "||" << setw(9) << "TYPE"
+         << setw(3) << left << "||" << setw(22)<< "NAME"
+         << setw(3) << right << "||" << setw(10) << "AMOUNT"
+         << setw(3) << right << "||" << setw(10) << "PRICE"
+         << setw(6) << right << "||" << setw(10) << "DATE"
+         << setw(7) << "||" << endl;
+    cout << "======================================================================================" << endl;
+    for (int i = 0; i < count_circulation; i++) {
+        cout << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+        << setw(3) << left << "||" << setw(22) << tmp->name 
+        << setw(3) << right << "||" << setw(10) << comma(tmp->amount)
+        << setw(3) << right << "||" << setw(10) << comma(tmp->price)
+        << setw(6) << right << "||" << setw(12) << tmp->date 
+        << setw(5) << "||" << endl;
+        tmp = tmp->link_circulation;
+    }
+    cout << "======================================================================================" << endl;
+
+}

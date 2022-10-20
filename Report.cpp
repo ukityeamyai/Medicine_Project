@@ -194,6 +194,72 @@ void Report::print_all_medicine() {
     }
     cout << "===============================================================================================" << endl;
 }
+void Report::notification_minimum() {
+    bubble_sort_ascending();
+    Node *tmp = this->obj_storage.get_head();
+    int  count = this->obj_storage.get_count();
+    cout << "=====================================================================================================" << endl;
+    cout << "||" << setw(60) << "NOTIFICATION MINIMUM" << setw(39) << right << "||" << endl;
+    cout << "=====================================================================================================" << endl;
+    cout << setw(3) << left << "||" << setw(9) << "LOT"
+         << setw(3) << left << "||" << setw(9) << "TYPE"
+         << setw(3) << left << "||" << setw(15) << "NAME"
+         << setw(3) << right << "||" << setw(10) << "AMOUNT"
+         << setw(5) << right << "||" << setw(7) << "VOLUME"
+         << setw(4) << right << "||" << setw(8) << "MFG"
+         << setw(7) << right << "||" << setw(8) << "EXP" << setw(7) << "||" << endl;
+    cout << "=====================================================================================================" << endl;
+    for (int i = 0; i < count; i++) {
+        if (tmp->type == 1) {
+            if (tmp->amount < 20 && tmp->amount != 0) {
+                cout << setw(3) << left << "||" << setw(9) << tmp->lot_number
+                     << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                     << setw(3) << left << "||" << setw(15) << tmp->name
+                     << setw(3) << right << "||" << setw(10) << comma(tmp->amount)
+                     << setw(5) << right << "||" << setw(7) << comma(tmp->volume)
+                     << setw(4) << right << "||" << setw(3) << tmp->day_mfg << " "
+                     << modify_month(tmp->month_mfg) << " " << tmp->year_mfg
+                     << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                     << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                     << setw(3) << "||";
+                cout << endl;
+            }
+        } else if (tmp->type == 2){
+            if (tmp->amount < 50 && tmp->amount != 0) {
+                cout << setw(3) << left << "||" << setw(9) << tmp->lot_number
+                    << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                     << setw(3) << left << "||" << setw(15) << tmp->name
+                     << setw(3) << right << "||" << setw(10) << comma(tmp->amount)
+                     << setw(5) << right << "||" << setw(7) << comma(tmp->volume)
+                     << setw(4) << right << "||" << setw(3) << tmp->day_mfg << " "
+                     << modify_month(tmp->month_mfg) << " " << tmp->year_mfg
+                     << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                     << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                     << setw(3) << "||";
+                cout << endl;
+            }
+        } else if (tmp->type == 3){
+            if (tmp->amount < 30 && tmp->amount != 0) {
+                cout << setw(3) << left << "||" << setw(9) << tmp->lot_number
+                    << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                     << setw(3) << left << "||" << setw(15) << tmp->name
+                     << setw(3) << right << "||" << setw(10) << comma(tmp->amount)
+                     << setw(5) << right << "||" << setw(7) << comma(tmp->volume)
+                     << setw(4) << right << "||" << setw(3) << tmp->day_mfg << " "
+                     << modify_month(tmp->month_mfg) << " " << tmp->year_mfg
+                     << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                     << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                     << setw(3) << "||";
+                cout << endl;
+            }
+        }
+
+        tmp = tmp->link_lot;
+    }
+    cout << "=====================================================================================================" << endl;
+}
+
+
 
 
 

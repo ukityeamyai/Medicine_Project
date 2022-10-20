@@ -13,10 +13,10 @@ class Report {
         void modify_month_exp();
         string modify_month(string month);
         void bubble_sort_ascending();
-
         void print_all_medicine();
         void print_medicine_by_name();
-
+        void notification_expire();
+        void notification_minimum();
 };
 
 #endif //PROJECT_REPORT_H

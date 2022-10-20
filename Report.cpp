@@ -194,6 +194,134 @@ void Report::print_all_medicine() {
     }
     cout << "===============================================================================================" << endl;
 }
+
+void Report::print_medicine_by_name() {
+    bubble_sort_ascending();
+    Node *tmp = this->obj_storage.get_head();
+    int  count = this->obj_storage.get_count();
+    int type;
+    string name;
+    cout << "================= MEDICINE TYPE ==================" << endl;
+    cout << left << setw(3) << "||" << "1.PILL" << setw(41) << right << "||" << endl;
+    cout << left << setw(3) << "||" << "2.CREAM" << setw(40) << right << "||" << endl;
+    cout << left << setw(3) << "||" << "3.LIQUID" << setw(39) << right << "||" << endl;
+    cout << "==================================================" << endl;
+    cout << "Type Medicine :";
+    while (!(cin >> type)) {
+        cin.clear();
+        type:
+        cout << "==================================================" << endl;
+        cout << "||" << setw(38) << "Invalid information, try again." << setw(10) << right << "||" << endl;
+        cout << "==================================================" << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Type Medicine :";
+    }
+    if (type > 3 || type < 0){
+        goto type;
+    }
+
+    cout << "Name Medicine :";
+    cin >> name;
+    cout << "===============================================================================================" << endl;
+    cout << "||" << setw(57) << "MEDICINE INFORMATION" << setw(36) << right << "||" << endl;
+    cout << "===============================================================================================" << endl;
+    cout << setw(3) << left << "||" << setw(9) << "TYPE"
+         << setw(3) << left << "||" << setw(13)<< "NAME"
+         << setw(3) << right << "||" << setw(7) << "AMOUNT";
+    if (type == 1){
+        cout << setw(3) << right << "||" << setw(4)<< "MG";
+    }
+    else if (type == 2 || type == 3){
+        cout << setw(3) << right << "||" << setw(4)<< "ML";
+    }
+    cout << setw(4) << right << "||" << setw(8)<< "MFG"
+         << setw(7) << right << "||" << setw(8) << "EXP"
+         << setw(7) << right << "||" << setw(13) << "PRICE" << setw(3) << "||";
+    cout << endl;
+    cout << "===============================================================================================" << endl;
+    bool check = true;
+    for (int i = 0; i < count; i++) {
+        if (tmp->type == type && tmp->name == name) {
+            cout    << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                    << setw(3) << left << "||" << setw(13)<< tmp->name
+                    << setw(3) << right << "||" << setw(7) << comma(tmp->amount)
+                    << setw(3) << right << "||" << setw(5)<< tmp->volume
+                    << setw(3) << right << "||" << setw(3)<< tmp->day_mfg << " "
+                    << modify_month(tmp->month_mfg)<< " " << tmp->year_mfg
+                    << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                    << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                    << setw(3) << right << "||" << setw(8) << comma(tmp->price) << " Bath"
+                    << setw(3) << "||";
+            cout << endl;
+            check = false;
+        }
+        tmp = tmp->link_lot;
+    }
+    if (check){
+        cout << setw(70)<< "----------------- Not Found -----------------" << endl;
+    }
+    cout << "===============================================================================================" << endl;
+}
+
+void Report::notification_expire() {
+    bubble_sort_ascending();
+    Node *tmp = this->obj_storage.get_head();
+    Node *ptmp = this->obj_storage.get_head();
+    Node *tail = this->obj_storage.get_tail();
+    int count = this->obj_storage.get_count();
+
+    int day,month,year;
+    string str_day,str_month,str_year;
+
+
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+    year = 1900 + ltm->tm_year;
+    month = 1 + ltm->tm_mon;
+    day = ltm->tm_mday;
+
+
+
+    cout << "=====================================================================================================" << endl;
+    cout << "||" << setw(60) << "NOTIFICATION EXPIRE" << setw(39) << right << "||" << endl;
+    cout << "=====================================================================================================" << endl;
+    cout << setw(3) << left << "||" << setw(9) << "LOT"
+         << setw(3) << left << "||" << setw(9) << "TYPE"
+         << setw(3) << left << "||" << setw(15) << "NAME"
+         << setw(3) << right << "||" << setw(10) << "AMOUNT"
+         << setw(5) << right << "||" << setw(7) << "VOLUME"
+         << setw(4) << right << "||" << setw(8) << "MFG"
+         << setw(7) << right << "||" << setw(8) << "EXP" << setw(7) << "||" << endl;
+    cout << "=====================================================================================================" << endl;
+    bool check = true;
+    for (int i = 0; i < count; i++) {
+
+        if (stoi(tmp->year_exp) <= year) {
+            if (stoi(tmp->month_exp) <= month) {
+                cout << setw(3) << left << "||" << setw(9) << tmp->lot_number
+                     << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                     << setw(3) << left << "||" << setw(15) << tmp->name
+                     << setw(3) << right << "||" << setw(10) << comma(tmp->amount)
+                     << setw(5) << right << "||" << setw(7) << comma(tmp->volume)
+                     << setw(4) << right << "||" << setw(3) << tmp->day_mfg << " "
+                     << modify_month(tmp->month_mfg) << " " << tmp->year_mfg
+                     << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                     << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                     << setw(3) << "||";
+                cout << endl;
+                check = false;
+            }
+        }
+        tmp = tmp->link_lot;
+    }
+    if (check){
+        cout << setw(73)<< "----------------- Not Found -----------------" << endl;
+    }
+    cout << "=====================================================================================================" << endl;
+}
+
+
 void Report::notification_minimum() {
     bubble_sort_ascending();
     Node *tmp = this->obj_storage.get_head();

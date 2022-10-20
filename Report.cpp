@@ -136,3 +136,78 @@ void Report::bubble_sort_ascending() {
     }
 }
 
+void Report::print_all_medicine() {
+    bubble_sort_ascending();
+    Node *tmp = this->obj_storage.get_head();
+    int  count = this->obj_storage.get_count();
+    int type;
+    cout << "================= MEDICINE TYPE ==================" << endl;
+    cout << left << setw(3) << "||" << "1.PILL" << setw(41) << right << "||" << endl;
+    cout << left << setw(3) << "||" << "2.CREAM" << setw(40) << right << "||" << endl;
+    cout << left << setw(3) << "||" << "3.LIQUID" << setw(39) << right << "||" << endl;
+    cout << "==================================================" << endl;
+    cout << "Type Medicine :";
+    while (!(cin >> type)) {
+        cin.clear();
+        type:
+        cout << "==================================================" << endl;
+        cout << "||" << setw(38) << "Invalid information, try again." << setw(10) << right << "||" << endl;
+        cout << "==================================================" << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Type Medicine :";
+    }
+    if (type > 3 || type < 0){
+        goto type;
+    }
+    cout << "===============================================================================================" << endl;
+    cout << "||" << setw(57) << "MEDICINE INFORMATION" << setw(36) << right << "||" << endl;
+    cout << "===============================================================================================" << endl;
+    cout << setw(3) << left << "||" << setw(9) << "TYPE"
+         << setw(3) << left << "||" << setw(13)<< "NAME"
+         << setw(3) << right << "||" << setw(7) << "AMOUNT";
+    if (type == 1){
+        cout << setw(3) << right << "||" << setw(4)<< "MG";
+    }
+    else if (type == 2 || type == 3){
+        cout << setw(3) << right << "||" << setw(4)<< "ML";
+    }
+    cout << setw(4) << right << "||" << setw(8)<< "MFG"
+         << setw(7) << right << "||" << setw(8) << "EXP"
+         << setw(7) << right << "||" << setw(13) << "PRICE" << setw(3) << "||";
+    cout << endl;
+    cout << "===============================================================================================" << endl;
+    for (int i = 0; i < count; i++) {
+        if (tmp->type == type) {
+            cout    << setw(3) << left << "||" << setw(9) << modify_type(to_string(tmp->type))
+                    << setw(3) << left << "||" << setw(13)<< tmp->name
+                    << setw(3) << right << "||" << setw(7) << comma(tmp->amount)
+                    << setw(3) << right << "||" << setw(5)<< tmp->volume
+                    << setw(3) << right << "||" << setw(3)<< tmp->day_mfg << " "
+                    << modify_month(tmp->month_mfg)<< " " << tmp->year_mfg
+                    << setw(3) << right << "||" << setw(3) << tmp->day_exp << " "
+                    << modify_month(tmp->month_exp) << " " << tmp->year_exp
+                    << setw(3) << right << "||" << setw(8) << comma(tmp->price) << " Bath"
+                    << setw(3) << "||";
+            cout << endl;
+        }
+        tmp = tmp->link_lot;
+    }
+    cout << "===============================================================================================" << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

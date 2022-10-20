@@ -1,6 +1,4 @@
-//
-// Created by Acer on 18/10/2565.
-//
+
 
 #ifndef PROJECT_LOT_H
 #define PROJECT_LOT_H

@@ -1,6 +1,4 @@
-//
-// Created by Acer on 18/10/2565.
-//
+
 
 #include "Node.h"
 Node::Node(int lot_number, int type, string name, int amount, int volume, string mfg, string exp, int price) {

@@ -1,6 +1,4 @@
-//
-// Created by Acer on 18/10/2565.
-//
+
 
 #include "Medicine.h"
 Medicine::Medicine() {

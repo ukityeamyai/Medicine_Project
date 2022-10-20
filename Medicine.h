@@ -1,6 +1,4 @@
-//
-// Created by Acer on 18/10/2565.
-//
+
 
 #ifndef PROJECT_MEDICINE_H
 #define PROJECT_MEDICINE_H

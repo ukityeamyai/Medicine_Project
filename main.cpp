@@ -21,6 +21,8 @@ int main() {
     obj_report.modify_month_mfg();
     obj_report.modify_month_exp();
     int menu;
+
+   
     main:
     cout << "==================================================" << endl;
     cout << "|| 1. Add Medicine                              ||" << endl;
@@ -197,6 +199,8 @@ int main() {
     } else if (menu == 0){
         cout << "THANK YOU" << endl;
     }
+
+    
     return 0;
 
 }

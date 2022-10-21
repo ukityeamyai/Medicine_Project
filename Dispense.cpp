@@ -1,3 +1,7 @@
+//
+// Created by Acer on 18/10/2565.
+//
+
 #include "Dispense.h"
 
 Dispense::Dispense() {
@@ -209,6 +213,7 @@ void Dispense::dispense() {
         }
     }
 }
+
 void Dispense::dispense_amount(int type, string name, int amount) {
     int price;
     bubble_sort_ascending();
@@ -267,14 +272,11 @@ void Dispense::save_circulation(int type, string name, int amount) {
     }
 
     if (myFile.is_open()){
-        for (int i = 0; i < count_circulation; i++) {
-            myFile << type << ","
+        myFile << type << ","
                    << name << ","
                    << amount << ","
                    << price << ","
                    << date() << endl;
-            tmp = tmp->link_circulation;
-        }
     }else{
         cout << "Can't open file" << endl;
     }
@@ -357,3 +359,4 @@ void Dispense::circulation() {
     cout << "======================================================================================" << endl;
 
 }
+
